@@ -19,7 +19,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class CitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = City
-        fields = ['url', 'name', 'population', 'country_id']
+        fields = '__all__'
 
 
 class CountrySerializer(serializers.HyperlinkedModelSerializer):

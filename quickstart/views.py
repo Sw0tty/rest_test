@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import viewsets, permissions, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from quickstart import serializers
 from quickstart.models import City, Country
 
@@ -30,7 +31,7 @@ class CityViewSet(viewsets.ModelViewSet):
     """
     queryset = City.objects.all()
     serializer_class = serializers.CitySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class CountryViewSet(viewsets.ModelViewSet):
@@ -40,3 +41,10 @@ class CountryViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = serializers.CountrySerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class CitiesView(APIView):
+    def get(self, request):
+        lst = City.objects.all().values()
+        return Response({"cities": lst}, status=status.HTTP_200_OK)
+    

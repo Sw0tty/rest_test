@@ -35,9 +35,14 @@ urlpatterns = [
     # REST
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
+    path('api/v1/cities/', views.CityViewSet.as_view({'get': 'list'})),
+    path('api/v1/cities2/', views.CitiesView.as_view()),
     # drf-spectacular
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api/schema/', include(
+        [
+            path('', SpectacularAPIView.as_view(), name='schema'),
+            path('swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+            path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+        ]
+    )),
 ]
